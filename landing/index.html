@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Are.na MCP</title>
+    <meta
+      name="description"
+      content="A community-built MCP server for Are.na. Connect AI to your channels & blocks. Read & write access."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Are.na MCP" />
+    <meta
+      property="og:description"
+      content="A community-built MCP server for Are.na. Connect AI to your channels & blocks. Read & write access."
+    />
+    <meta property="og:url" content="https://arena-mcp.vercel.app" />
+    <meta property="og:image" content="https://arena-mcp.vercel.app/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Are.na MCP" />
+    <meta
+      name="twitter:description"
+      content="A community-built MCP server for Are.na. Connect AI to your channels & blocks. Read & write access."
+    />
+    <meta name="twitter:image" content="https://arena-mcp.vercel.app/assets/og-image.png" />
+    <link rel="canonical" href="https://arena-mcp.vercel.app" />
+    <link rel="icon" type="image/svg+xml" href="./assets/logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="viewport">
+      <header id="top">
+        <div class="header-top">
+          <h1 class="brand">
+            Are.na MCP
+          </h1>
+          <div class="meta-stack mono">
+            <span id="clock">00:00:00</span>
+            <span>LOCAL / STDIO</span>
+          </div>
+        </div>
+
+        <p class="intro-text">
+          A community-built MCP server for
+          <a href="https://www.are.na" target="_blank" rel="noreferrer">Are.na</a>. Connect AI to your channels &amp;
+          blocks. Read &amp; write access.
+        </p>
+
+        <div class="nav-grid">
+          <a class="nav-item" href="#what"><span class="icon-plus">+</span>What It Does</a>
+          <a class="nav-item" href="#setup"><span class="icon-plus">+</span>Setup</a>
+          <a class="nav-item" href="#tools"><span class="icon-plus">+</span>Tools</a>
+          <a class="nav-item" href="#tests"><span class="icon-plus">+</span>Testing</a>
+        </div>
+      </header>
+
+      <main class="feed">
+        <article id="what" class="card">
+          <div class="card-header">
+            <span class="mono">CAPABILITY</span>
+            <span class="mono">01</span>
+          </div>
+          <div class="sketch-container">
+            <svg class="sketch-svg" viewBox="0 0 200 200" aria-hidden="true">
+              <path
+                class="draw-path"
+                d="M24,40 L86,40 L112,74 L176,74 L176,160 L24,160 Z"
+              ></path>
+              <path class="draw-path" d="M112,74 L112,160" style="animation-delay: 0.2s"></path>
+              <circle class="draw-path" cx="54" cy="100" r="14" style="animation-delay: 0.35s"></circle>
+              <circle class="draw-path" cx="148" cy="114" r="14" style="animation-delay: 0.45s"></circle>
+              <path class="draw-path" d="M68,100 L134,114" style="animation-delay: 0.55s"></path>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <p class="card-copy">
+              Read channels/blocks/users as MCP resources and run deterministic tools for search,
+              traversal, and mutation.
+            </p>
+          </div>
+        </article>
+
+        <article class="card text-only">
+          <div class="card-header">
+            <span class="mono">RUNTIME</span>
+            <span class="badge">NODE 22</span>
+          </div>
+          <p class="quote">
+            Uses the
+            <a href="https://dev.are.na/documentation/channels" target="_blank" rel="noreferrer">Are.na V3 API</a>
+            by default.
+          </p>
+          <div class="card-footer">
+            <span class="mono">SEARCH FALLBACK: V2 ONLY</span>
+          </div>
+        </article>
+
+        <article class="card text-only">
+          <div class="card-header">
+            <span class="mono">LOCAL BY DEFAULT</span>
+            <span class="badge">STDIO</span>
+          </div>
+          <p class="card-copy">
+            Runs locally in MCP clients and keeps credentials user-owned. Bring your own
+            <code>ARENA_ACCESS_TOKEN</code>.
+          </p>
+          <div class="list-shell">
+            <p>Claude Desktop · Cursor · VS Code</p>
+            <p>Works anywhere command-based MCP servers are supported.</p>
+          </div>
+          <div class="card-footer">
+            <span class="mono">NO SHARED HOST REQUIRED</span>
+          </div>
+        </article>
+
+        <article id="tools" class="card">
+          <div class="card-header">
+            <span class="mono">TOOLS</span>
+            <span class="mono">11</span>
+          </div>
+          <div class="list-shell">
+            <p><code>search_arena</code> · <code>get_channel_contents</code> · <code>get_block_details</code></p>
+            <p><code>get_block_connections</code> · <code>get_user</code> · <code>get_user_contents</code></p>
+            <p><code>create_channel</code> · <code>create_block</code> · <code>connect_block</code></p>
+            <p><code>disconnect_connection</code> · <code>move_connection</code></p>
+          </div>
+          <div class="card-footer">
+            <div class="file-name">MCP_TOOLSET.TXT</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <span class="mono">IMAGE OUTPUT</span>
+            <span class="badge">MCP</span>
+          </div>
+          <div class="sketch-container">
+            <svg class="sketch-svg" viewBox="0 0 200 200" aria-hidden="true">
+              <rect class="draw-path" x="34" y="44" width="132" height="110" rx="8"></rect>
+              <circle class="draw-path" cx="72" cy="82" r="10" style="animation-delay: 0.2s"></circle>
+              <path class="draw-path" d="M50,132 L92,98 L118,116 L150,88 L150,132 Z" style="animation-delay: 0.35s"></path>
+            </svg>
+          </div>
+          <div class="card-footer">
+            <p class="card-copy">
+              Channel and block reads include image content parts for clients that render inline
+              visual context.
+            </p>
+          </div>
+        </article>
+
+        <article class="card text-only">
+          <div class="card-header">
+            <span class="mono">SELF-HOST HTTP (OPTIONAL)</span>
+            <span class="badge">ADVANCED</span>
+          </div>
+          <p class="card-copy">
+            Optional Streamable HTTP deployment for shared environments. Protect endpoint access
+            with read and write API keys.
+          </p>
+          <div class="snippet">
+            <code>MCP_HTTP_READ_KEYS="read-key"
+MCP_HTTP_WRITE_KEYS="write-key"</code>
+          </div>
+          <div class="card-footer">
+            <span class="mono">SCOPES: READ + WRITE</span>
+          </div>
+        </article>
+
+        <article id="setup" class="card text-only">
+          <div class="card-header">
+            <span class="mono">SETUP STEP 1</span>
+            <button class="copy-button mono" data-copy-target="install-snippet">COPY</button>
+          </div>
+          <div class="snippet" id="install-snippet">
+            <code>ARENA_ACCESS_TOKEN="YOUR_TOKEN"
+npx -y @egotisticalengineering/arena-mcp arena-mcp</code>
+          </div>
+          <div class="card-footer">
+            <span class="mono">NPM QUICK RUN</span>
+          </div>
+        </article>
+
+        <article class="card text-only">
+          <div class="card-header">
+            <span class="mono">SETUP STEP 2</span>
+            <button class="copy-button mono" data-copy-target="env-snippet">COPY</button>
+          </div>
+          <div class="snippet" id="env-snippet">
+            <code>export ARENA_ACCESS_TOKEN="YOUR_TOKEN"
+export ARENA_ENABLE_V2_SEARCH_FALLBACK="true"</code>
+          </div>
+          <div class="card-footer">
+            <span class="mono">ENV CONFIG</span>
+          </div>
+        </article>
+
+        <article class="card text-only">
+          <div class="card-header">
+            <span class="mono">SETUP STEP 3</span>
+            <button class="copy-button mono" data-copy-target="claude-snippet">COPY</button>
+          </div>
+          <div class="snippet" id="claude-snippet">
+            <code>{
+  "mcpServers": {
+    "arena": {
+      "command": "npx",
+      "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+      "env": { "ARENA_ACCESS_TOKEN": "YOUR_TOKEN" }
+    }
+  }
+}</code>
+          </div>
+          <div class="card-footer">
+            <span class="mono">CLAUDE DESKTOP</span>
+          </div>
+        </article>
+
+        <article id="tests" class="card text-only dark">
+          <div class="card-header">
+            <span class="mono">NOT AN OFFICIAL MCP</span>
+            <span class="badge light">COMMUNITY PROJECT</span>
+          </div>
+          <div class="list-shell">
+            <p>
+              Created by
+              <a class="creator-link" href="https://seanxthielen.com" target="_blank" rel="noreferrer">Sean Thielen-Esparza</a>
+            </p>
+          </div>
+          <a class="cta-link" href="https://github.com/egotisticalengineering/arena-mcp" target="_blank" rel="noreferrer">View on GitHub</a>
+          <div class="card-footer">
+            <span class="mono">COMMUNITY BUILT</span>
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <a class="fab" href="#top" aria-label="Back to top">↑</a>
+
+    <script src="./script.js" type="module"></script>
+  </body>
+</html>

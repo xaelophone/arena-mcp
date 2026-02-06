@@ -1,0 +1,52 @@
+{
+  "name": "@egotisticalengineering/arena-mcp",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "description": "Graph-native MCP server for Are.na using API v3 with v2 search fallback.",
+  "bin": {
+    "arena-mcp": "bin/arena-mcp.js",
+    "arena-mcp-http": "bin/arena-mcp-http.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "docs",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "dev:http": "tsx src/http.ts",
+    "start": "node dist/src/index.js",
+    "start:http": "node dist/src/http.js",
+    "landing": "node scripts/landing-server.mjs",
+    "smoke:stdio": "node scripts/smoke-stdio.mjs",
+    "test": "vitest run",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "express": "^4.21.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.23",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.2",
+    "vitest": "^3.2.4"
+  }
+}
