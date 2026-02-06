@@ -188,7 +188,7 @@ When adding a new capability:
   "mcpServers": {
     "arena": {
       "command": "npx",
-      "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+      "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
       "env": {
         "ARENA_ACCESS_TOKEN": "YOUR_TOKEN"
       }

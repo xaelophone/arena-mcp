@@ -4,15 +4,16 @@
 
 - Node.js 22+
 - Are.na personal access token
-- Built server (`npm run build`) or globally installed package
+- Built server (`npm run build`) or GitHub-based command execution
 
-## Option A: Use global binary
+## Option A: Use GitHub package command
 
 ```json
 {
   "mcpServers": {
     "arena": {
-      "command": "arena-mcp",
+      "command": "npx",
+      "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
       "env": {
         "ARENA_ACCESS_TOKEN": "YOUR_TOKEN"
       }

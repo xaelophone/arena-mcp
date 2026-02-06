@@ -8,7 +8,7 @@ Configure an MCP server entry in Cursor using one of these command forms.
 {
   "name": "arena",
   "command": "npx",
-  "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+  "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
   "env": {
     "ARENA_ACCESS_TOKEN": "YOUR_TOKEN"
   }

@@ -2,13 +2,13 @@
 
 Add an MCP server entry in your VS Code MCP configuration using one of these forms.
 
-## npm package command
+## GitHub package command
 
 ```json
 {
   "name": "arena",
   "command": "npx",
-  "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+  "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
   "env": {
     "ARENA_ACCESS_TOKEN": "YOUR_TOKEN"
   }

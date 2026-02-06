@@ -18,10 +18,10 @@ export ARENA_ACCESS_TOKEN="YOUR_TOKEN"
 npm run start
 ```
 
-Or run from npm package directly:
+Or run directly from GitHub:
 
 ```bash
-ARENA_ACCESS_TOKEN="YOUR_TOKEN" npx -y @egotisticalengineering/arena-mcp arena-mcp
+ARENA_ACCESS_TOKEN="YOUR_TOKEN" npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp
 ```
 
 ## MCP Client Config
@@ -41,14 +41,14 @@ Use one of these command patterns in your MCP client config:
 }
 ```
 
-If the global binary is not installed:
+GitHub-based command (no npm publish required):
 
 ```json
 {
   "mcpServers": {
     "arena": {
       "command": "npx",
-      "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+      "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
       "env": {
         "ARENA_ACCESS_TOKEN": "YOUR_TOKEN"
       }
@@ -167,8 +167,12 @@ Open `http://localhost:4173`.
 - `docs/developer-guide.md`
 - `docs/api-reference.md`
 
-## Publishing
+## Distribution
 
-This package is configured for public npm publish as `@egotisticalengineering/arena-mcp`.
+Primary distribution is GitHub source + GitHub-based execution.
 
-Release workflow runs checks and builds before publish (`prepublishOnly`).
+```bash
+npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp
+```
+
+Release workflow still runs validation and can optionally publish to npm later if you set npm credentials.

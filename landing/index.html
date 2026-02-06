@@ -184,10 +184,10 @@ MCP_HTTP_WRITE_KEYS="write-key"</code>
           </div>
           <div class="snippet" id="install-snippet">
             <code>ARENA_ACCESS_TOKEN="YOUR_TOKEN"
-npx -y @egotisticalengineering/arena-mcp arena-mcp</code>
+npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp</code>
           </div>
           <div class="card-footer">
-            <span class="mono">NPM QUICK RUN</span>
+            <span class="mono">GITHUB QUICK RUN</span>
           </div>
         </article>
 
@@ -215,7 +215,7 @@ export ARENA_ENABLE_V2_SEARCH_FALLBACK="true"</code>
   "mcpServers": {
     "arena": {
       "command": "npx",
-      "args": ["-y", "@egotisticalengineering/arena-mcp", "arena-mcp"],
+      "args": ["--yes", "--package=github:xaelophone/arena-mcp", "arena-mcp"],
       "env": { "ARENA_ACCESS_TOKEN": "YOUR_TOKEN" }
     }
   }
