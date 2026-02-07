@@ -32,6 +32,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 h1,
@@ -65,6 +66,13 @@ code {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.feed,
+.card,
+.card-header,
+.card-footer {
+  min-width: 0;
 }
 
 header {
@@ -162,12 +170,13 @@ header {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  transform: rotate(var(--tilt-rotation, 0deg));
   transition: transform 0.3s var(--ease-out);
 }
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-3px);
+    transform: rotate(var(--tilt-rotation, 0deg)) translateY(-3px);
   }
 }
 
@@ -358,28 +367,28 @@ header {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Mobile: screens up to 760px ── */
-
 @media (max-width: 760px) {
   .viewport {
-    padding: 12px;
-    gap: 12px;
+    padding: 10px;
+    gap: 10px;
   }
 
   header {
-    padding: 20px 16px;
+    padding: 16px;
     gap: 20px;
   }
 
   .header-top {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
 
   .meta-stack {
-    flex-direction: row;
     text-align: left;
-    gap: 12px;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
   }
 
   .nav-item {
@@ -388,7 +397,18 @@ header {
   }
 
   .card {
+    padding: 14px;
     min-height: auto;
+  }
+
+  .card-header,
+  .card-footer {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .badge {
+    white-space: normal;
   }
 
   .copy-button {
@@ -402,15 +422,13 @@ header {
   }
 
   .fab {
-    right: 16px;
-    bottom: 16px;
+    right: 14px;
+    bottom: 14px;
     width: 48px;
     height: 48px;
     font-size: 20px;
   }
 }
-
-/* ── Small mobile: screens up to 480px ── */
 
 @media (max-width: 480px) {
   .viewport {

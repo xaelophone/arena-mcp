@@ -41,10 +41,16 @@ function wireCopyButtons() {
 
 function addCardTilt() {
   const cards = document.querySelectorAll(".card");
+  const disableTilt = window.matchMedia("(max-width: 760px)").matches;
   cards.forEach((card) => {
     if (card.classList.contains("text-only")) return;
+    if (disableTilt) {
+      card.style.setProperty("--tilt-rotation", "0deg");
+      return;
+    }
+
     const rotation = (Math.random() * 2 - 1).toFixed(2);
-    card.style.transform = `rotate(${rotation}deg)`;
+    card.style.setProperty("--tilt-rotation", `${rotation}deg`);
   });
 }
 
@@ -52,3 +58,4 @@ updateClock();
 setInterval(updateClock, 1000);
 wireCopyButtons();
 addCardTilt();
+window.addEventListener("resize", addCardTilt);
