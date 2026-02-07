@@ -10,8 +10,14 @@
   --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -159,8 +165,10 @@ header {
   transition: transform 0.3s var(--ease-out);
 }
 
-.card:hover {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .card-header {
@@ -300,6 +308,8 @@ header {
   border-radius: 14px;
   padding: 12px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
 .dark .snippet {
@@ -346,4 +356,119 @@ header {
   place-items: center;
   font-size: 24px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Mobile: screens up to 760px ── */
+
+@media (max-width: 760px) {
+  .viewport {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  header {
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .header-top {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .meta-stack {
+    flex-direction: row;
+    text-align: left;
+    gap: 12px;
+  }
+
+  .nav-item {
+    min-height: 44px;
+    padding: 10px 4px;
+  }
+
+  .card {
+    min-height: auto;
+  }
+
+  .copy-button {
+    min-height: 36px;
+    padding: 6px 14px;
+    font-size: 11px;
+  }
+
+  .cta-link {
+    padding: 16px;
+  }
+
+  .fab {
+    right: 16px;
+    bottom: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+}
+
+/* ── Small mobile: screens up to 480px ── */
+
+@media (max-width: 480px) {
+  .viewport {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  header {
+    padding: 16px 14px;
+    gap: 16px;
+    border-radius: 16px;
+  }
+
+  .brand {
+    font-size: 26px;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .card {
+    border-radius: 16px;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .snippet {
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .snippet code {
+    font-size: 11px;
+  }
+
+  .sketch-container {
+    min-height: 100px;
+  }
+
+  .sketch-svg {
+    max-width: 140px;
+  }
+
+  .list-shell {
+    font-size: 13px;
+  }
+
+  .list-shell code {
+    font-size: 11px;
+  }
+
+  .fab {
+    right: 12px;
+    bottom: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
 }
