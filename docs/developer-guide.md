@@ -3,7 +3,9 @@
 This guide documents how to run, extend, and verify the Are.na MCP server in this repository.
 
 Companion reference:
+
 - `docs/api-reference.md` for concrete resource/tool/prompt signatures and response shapes.
+- `docs/README.md` for task-oriented docs navigation.
 
 ## 1) Runtime and Entry Points
 
@@ -17,6 +19,7 @@ Companion reference:
 - Server wiring: `src/server.ts`.
 
 Server startup flow:
+
 1. `loadConfig()` reads and validates environment variables.
 2. `createArenaMcpServer(config)` registers resources, read tools, write tools, and prompts.
 3. `StdioServerTransport` is connected and the process waits for MCP messages.
@@ -24,9 +27,11 @@ Server startup flow:
 ## 2) Configuration
 
 Required:
+
 - `ARENA_ACCESS_TOKEN`
 
 Optional:
+
 - `ARENA_API_BASE_URL` (default `https://api.are.na`)
 - `ARENA_API_TIMEOUT_MS` (default `15000`)
 - `ARENA_MAX_RETRIES` (default `5`)
@@ -40,6 +45,7 @@ Optional:
 - `ARENA_IMAGE_FETCH_USER_AGENT` (default browser-like UA)
 
 HTTP mode only:
+
 - `MCP_HTTP_HOST` (default `0.0.0.0`)
 - `MCP_HTTP_PORT` (default `8787`)
 - `MCP_HTTP_PATH` (default `/mcp`)
@@ -52,22 +58,26 @@ HTTP mode only:
 ## 3) Running Locally
 
 Install:
+
 ```bash
 npm install
 ```
 
 Development (STDIO):
+
 ```bash
 npm run dev
 ```
 
 Build and run (STDIO):
+
 ```bash
 npm run build
 npm run start
 ```
 
 HTTP mode:
+
 ```bash
 npm run build
 export MCP_HTTP_READ_KEYS="read-key-1"
@@ -111,10 +121,12 @@ Resource responses include markdown text. Channel and block resources additional
 ## 5) Image Return Behavior
 
 Image payloads are returned in two forms:
+
 1. Markdown image references in text output.
 2. MCP binary image content (for clients that render image parts directly).
 
 Current limits:
+
 - Channel reads: up to 4 images per call.
 - Block detail reads: up to 1 image per call.
 - Per-image download cap: 2 MB (configurable).
@@ -128,12 +140,14 @@ Image behavior is implemented in `src/mcp/images.ts`.
 ## 6) Channel Resolution Rules
 
 `get_channel_contents(id_or_slug=...)` supports:
+
 - raw channel id (`"12345"`)
 - raw slug (`"my-channel-slug"`)
 - owner/slug input (`"owner-slug/my-channel-slug"`)
 - full Are.na URL (`https://www.are.na/owner-slug/my-channel-slug`)
 
 Resolution behavior:
+
 1. Attempt direct channel lookup.
 2. On 404, search channels in `scope="my"` and resolve by exact slug/title/single match.
 3. If owner slug is provided (owner/slug or URL), owner mismatch fails fast.
@@ -152,6 +166,7 @@ Note: write operations are v3-only in current implementation.
 
 Errors are translated to user-facing messages in `src/errors.ts`.
 Status handling:
+
 - `400`: invalid request
 - `401`: token/auth issue
 - `403`: permission issue (special handling for premium-gated search)
@@ -163,7 +178,9 @@ Status handling:
 ## 9) Testing and Validation
 
 Run full validation:
+
 ```bash
+npm run docs:check
 npm run lint
 npm run typecheck
 npm test
@@ -171,6 +188,7 @@ npm run build
 ```
 
 Core test files:
+
 - `test/client.test.ts` (API client behavior, retry/fallback)
 - `test/server-smoke.test.ts` (MCP registration and tool behavior)
 - `test/images.test.ts` (image extraction and content rendering path)
@@ -181,12 +199,14 @@ Core test files:
 ## 10) Extending the Server
 
 When adding a new capability:
+
 1. Add or update normalized types in `src/arena/types.ts`.
 2. Add normalization logic in `src/arena/normalize.ts` as needed.
 3. Add API client methods in `src/arena/client.ts`.
 4. Register new MCP tools/resources/prompts under `src/mcp`.
 5. Add tests first for payload/behavior and smoke coverage.
-6. Update `README.md` and this guide.
+6. Update `docs/api-reference.md` and run `npm run docs:check`.
+7. Update `README.md` and this guide when onboarding flow changes.
 
 ## 11) Claude Desktop Configuration Example
 

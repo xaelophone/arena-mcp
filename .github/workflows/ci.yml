@@ -25,6 +25,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Docs Sync Check
+        run: npm run docs:check
+
       - name: Typecheck
         run: npm run typecheck
 

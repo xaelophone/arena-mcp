@@ -27,6 +27,7 @@
     "start:http": "node dist/src/http.js",
     "landing": "node scripts/landing-server.mjs",
     "smoke:stdio": "node scripts/smoke-stdio.mjs",
+    "docs:check": "node scripts/check-docs-sync.mjs",
     "test": "vitest run",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
