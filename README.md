@@ -74,6 +74,12 @@ export MCP_HTTP_WRITE_KEYS="write-key-1"
 npm run start:http
 ```
 
+For PaaS deployments, use a start command that builds first:
+
+```bash
+npm run build && npm run start:http
+```
+
 HTTP endpoint defaults:
 
 - Host: `0.0.0.0`
