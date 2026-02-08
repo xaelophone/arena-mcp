@@ -31,6 +31,10 @@ interface ReadToolDeps {
 const positiveInteger = z.number().int().positive();
 const pageSchema = z.number().int().min(1).optional();
 const perSchema = z.number().int().min(1).max(100).optional();
+const SEARCH_DEFAULT_PER = 10;
+const SEARCH_STRUCTURED_MAX_BYTES = 24_000;
+
+type StructuredSearchItem = Omit<NormalizedSearchItem, "raw"> & { raw?: unknown };
 
 export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
   const { arenaClient, searchFallbackEnabled } = deps;
@@ -54,30 +58,70 @@ export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
         group_id: positiveInteger.optional(),
         channel_id: positiveInteger.optional(),
         ext: z.array(z.string()).optional(),
+        include_raw: z.boolean().optional(),
       },
     },
     async (args) => {
       try {
-        const result = await arenaClient.search(args);
-        const topResult = result.items[0] ?? null;
-        const topResultAction = topResult ? buildPrimaryFollowUpAction(topResult) : null;
+        const { include_raw: includeRawArg, ...searchArgs } = args;
+        const includeRaw = includeRawArg === true;
+        const requestedPer = searchArgs.per ?? SEARCH_DEFAULT_PER;
+        const result = await arenaClient.search({
+          ...searchArgs,
+          per: requestedPer,
+        });
+        const compactItems = result.items.map((item) => toStructuredSearchItem(item, includeRaw));
+        const fit = fitSearchItemsToBudget({
+          items: compactItems,
+          maxBytes: SEARCH_STRUCTURED_MAX_BYTES,
+        });
+        const visibleItems = result.items.slice(0, fit.items.length);
+        const topResult = fit.items[0] ?? null;
+        const topResultAction = visibleItems[0] ? buildPrimaryFollowUpAction(visibleItems[0]) : null;
         const topResultConnectionsAction =
-          topResult?.entityType === "Block"
+          visibleItems[0]?.entityType === "Block"
             ? {
                 tool: "get_block_connections",
-                arguments: { id: topResult.id },
+                arguments: { id: visibleItems[0].id },
               }
             : null;
-        return toolSuccess(formatSearchResultsMarkdown(result), {
+        const nextPageAction = result.meta.hasMorePages
+          ? {
+              tool: "search_arena",
+              arguments: buildNextPageSearchArgs(searchArgs, requestedPer, includeRaw),
+            }
+          : null;
+        const textResult = fit.truncated
+          ? {
+              ...result,
+              items: visibleItems,
+            }
+          : result;
+        const text = [
+          formatSearchResultsMarkdown(textResult),
+          fit.truncated
+            ? `\nResponse trimmed to ${fit.items.length} item(s) to stay within response-size limits. Use page/per/type filters to narrow further.`
+            : "",
+        ].join("");
+
+        return toolSuccess(text, {
           source_api: result.sourceApi,
           meta: result.meta,
-          items: result.items,
+          items: fit.items,
+          returned_count: fit.items.length,
+          truncated: fit.truncated,
+          truncation_reason: fit.truncated ? "response_size_budget" : null,
+          raw_included: includeRaw,
           top_result: topResult,
           top_result_id: topResult?.id ?? null,
           top_result_type: topResult?.entityType ?? null,
           top_result_title: topResult?.title ?? null,
           top_result_action: topResultAction,
           top_result_connections_action: topResultConnectionsAction,
+          next_page_action: nextPageAction,
+          refine_hint: fit.truncated
+            ? "Reduce per, set type, or paginate with next_page_action to avoid oversized responses."
+            : null,
         });
       } catch (error) {
         return toolError(
@@ -283,6 +327,69 @@ function buildPrimaryFollowUpAction(item: NormalizedSearchItem): Record<string, 
     };
   }
   return null;
+}
+
+function toStructuredSearchItem(item: NormalizedSearchItem, includeRaw: boolean): StructuredSearchItem {
+  const compact: StructuredSearchItem = {
+    id: item.id,
+    entityType: item.entityType,
+    title: item.title,
+    subtitle: item.subtitle,
+    slug: item.slug,
+    blockType: item.blockType,
+    url: item.url,
+  };
+  if (includeRaw) {
+    compact.raw = item.raw;
+  }
+  return compact;
+}
+
+function fitSearchItemsToBudget(params: {
+  items: StructuredSearchItem[];
+  maxBytes: number;
+}): {
+  items: StructuredSearchItem[];
+  truncated: boolean;
+} {
+  let items = [...params.items];
+  let truncated = false;
+  while (items.length > 0) {
+    const bytes = Buffer.byteLength(JSON.stringify({ items }), "utf8");
+    if (bytes <= params.maxBytes) {
+      break;
+    }
+    items = items.slice(0, -1);
+    truncated = true;
+  }
+  if (items.length < params.items.length) {
+    truncated = true;
+  }
+  return { items, truncated };
+}
+
+function buildNextPageSearchArgs(
+  args: Record<string, unknown>,
+  per: number,
+  includeRaw: boolean,
+): Record<string, unknown> {
+  const currentPage = typeof args.page === "number" && Number.isFinite(args.page) ? args.page : 1;
+  const next = {
+    query: args.query,
+    type: args.type,
+    scope: args.scope,
+    page: currentPage + 1,
+    per,
+    sort: args.sort,
+    after: args.after,
+    seed: args.seed,
+    user_id: args.user_id,
+    group_id: args.group_id,
+    channel_id: args.channel_id,
+    ext: args.ext,
+    include_raw: includeRaw ? true : undefined,
+  };
+  return Object.fromEntries(Object.entries(next).filter(([, value]) => value !== undefined));
 }
 
 interface ResolvedChannel {

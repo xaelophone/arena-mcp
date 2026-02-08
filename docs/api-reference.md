@@ -50,7 +50,7 @@ Inputs:
 - `type?` (`All|Text|Image|Link|Attachment|Embed|Channel|Block|User|Group`)
 - `scope?` (`all|my|following`)
 - `page?` (int >= 1)
-- `per?` (int 1..100)
+- `per?` (int 1..100, default `10` for this tool)
 - `sort?` (`score_desc|created_at_desc|created_at_asc|updated_at_desc|updated_at_asc|name_asc|name_desc|connections_count_desc|random`)
 - `after?` (ISO datetime string)
 - `seed?` (positive int)
@@ -58,17 +58,24 @@ Inputs:
 - `group_id?` (positive int)
 - `channel_id?` (positive int)
 - `ext?` (string[])
+- `include_raw?` (boolean, default `false`; include large upstream raw payloads when `true`)
 
 Structured content keys:
 - `source_api`: `"v3" | "v2-fallback"`
 - `meta`
 - `items`
+- `returned_count`
+- `truncated`
+- `truncation_reason`
+- `raw_included`
 - `top_result`
 - `top_result_id`
 - `top_result_type`
 - `top_result_title`
 - `top_result_action`
 - `top_result_connections_action`
+- `next_page_action`
+- `refine_hint`
 
 ### `get_channel_contents`
 

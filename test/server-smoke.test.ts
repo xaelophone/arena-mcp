@@ -214,6 +214,131 @@ describe("MCP server smoke", () => {
       tool: "get_block_connections",
       arguments: { id: 42 },
     });
+    expect(structured?.raw_included).toBe(false);
+  });
+
+  it("uses per=10 by default and returns compact search items", async () => {
+    const searchMock = vi.fn(async () => ({
+      sourceApi: "v3" as const,
+      items: [
+        {
+          id: 42,
+          entityType: "Block" as const,
+          title: "Astro Digital Garden",
+          subtitle: "https://astro-digital-garden.example.com",
+          slug: null,
+          blockType: "Link" as const,
+          url: null,
+          raw: { large: "payload" },
+        },
+      ],
+      meta: {
+        currentPage: 1,
+        nextPage: 2,
+        prevPage: null,
+        perPage: 10,
+        totalPages: 2,
+        totalCount: 11,
+        hasMorePages: true,
+      },
+    }));
+    const fakeArenaClient = {
+      ...makeFakeArenaClient(),
+      search: searchMock,
+    };
+    const server = createArenaMcpServer(makeConfig(), {
+      arenaClient: fakeArenaClient as never,
+    });
+    serverClose = () => server.close();
+
+    client = new Client({ name: "test-client", version: "1.0.0" });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([server.connect(serverTransport), client.connect(clientTransport)]);
+
+    const result = await client.callTool({
+      name: "search_arena",
+      arguments: { query: "digital garden" },
+    });
+    expect(searchMock).toHaveBeenCalledWith(expect.objectContaining({ query: "digital garden", per: 10 }));
+
+    const structured = (result as { structuredContent?: Record<string, unknown> }).structuredContent;
+    expect(structured).toBeTruthy();
+    expect(structured?.raw_included).toBe(false);
+    expect(structured?.returned_count).toBe(1);
+    expect(structured?.next_page_action).toEqual({
+      tool: "search_arena",
+      arguments: {
+        query: "digital garden",
+        page: 2,
+        per: 10,
+      },
+    });
+
+    const items = structured?.items as Array<Record<string, unknown>>;
+    expect(items[0]).toBeTruthy();
+    expect("raw" in items[0]).toBe(false);
+  });
+
+  it("truncates oversized structured search output when include_raw=true", async () => {
+    const rawBlob = { payload: "x".repeat(16_000) };
+    const searchMock = vi.fn(async () => ({
+      sourceApi: "v3" as const,
+      items: [
+        {
+          id: 1,
+          entityType: "Block" as const,
+          title: "Result 1",
+          subtitle: "https://example.com/1",
+          slug: null,
+          blockType: "Link" as const,
+          url: null,
+          raw: rawBlob,
+        },
+        {
+          id: 2,
+          entityType: "Block" as const,
+          title: "Result 2",
+          subtitle: "https://example.com/2",
+          slug: null,
+          blockType: "Link" as const,
+          url: null,
+          raw: rawBlob,
+        },
+      ],
+      meta: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        perPage: 2,
+        totalPages: 1,
+        totalCount: 2,
+        hasMorePages: false,
+      },
+    }));
+    const fakeArenaClient = {
+      ...makeFakeArenaClient(),
+      search: searchMock,
+    };
+    const server = createArenaMcpServer(makeConfig(), {
+      arenaClient: fakeArenaClient as never,
+    });
+    serverClose = () => server.close();
+
+    client = new Client({ name: "test-client", version: "1.0.0" });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([server.connect(serverTransport), client.connect(clientTransport)]);
+
+    const result = await client.callTool({
+      name: "search_arena",
+      arguments: { query: "digital garden", per: 2, include_raw: true },
+    });
+    const structured = (result as { structuredContent?: Record<string, unknown> }).structuredContent;
+    expect(structured).toBeTruthy();
+    expect(structured?.raw_included).toBe(true);
+    expect(structured?.truncated).toBe(true);
+    expect(structured?.truncation_reason).toBe("response_size_budget");
+    expect(structured?.returned_count).toBe(1);
+    expect(structured?.refine_hint).toContain("Reduce per");
   });
 
   it("resolves get_channel_contents input from Are.na URL", async () => {
