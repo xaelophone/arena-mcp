@@ -56,7 +56,7 @@
         </p>
 
         <div class="hero-actions">
-          <a class="cta-link" href="#setup">Quick Setup</a>
+          <a class="cta-link" href="#setup">Compatible with Any MCP Client</a>
           <a
             class="secondary-link"
             href="https://github.com/xaelophone/arena-mcp"
@@ -97,9 +97,13 @@ npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp</code></pre>
 
         <article class="card text-only">
           <div class="card-header">
-            <span class="mono">Claude Desktop config</span>
+            <span class="mono">Client config example</span>
             <button class="copy-button mono" data-copy-target="claude-snippet">Copy</button>
           </div>
+          <p class="card-copy">
+            This JSON is an example for Claude Desktop. Any MCP client can use this server, but the
+            client-specific config format may differ.
+          </p>
           <div class="snippet" id="claude-snippet">
             <pre><code>{
   "mcpServers": {
@@ -159,7 +163,10 @@ npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp</code></pre>
             Community-built and not affiliated with Are.na. Uses the Are.na V3 API by default, with
             optional V2 search fallback.
           </p>
-          <p class="card-copy">Works in Claude Desktop, Cursor, and VS Code MCP clients.</p>
+          <p class="card-copy">
+            Compatible with any MCP client that supports command-based servers (for example Claude
+            Desktop, Cursor, and VS Code).
+          </p>
           <a
             class="cta-link"
             href="https://github.com/xaelophone/arena-mcp"
