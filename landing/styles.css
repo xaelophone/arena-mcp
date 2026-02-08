@@ -170,12 +170,16 @@ code {
 }
 
 .badge {
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
   border-radius: 999px;
-  background: #f4f4f0;
-  color: #323232;
+  background: var(--accent-color);
+  color: #111;
   font-size: 11px;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .card-copy {
