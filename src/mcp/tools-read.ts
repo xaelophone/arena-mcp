@@ -20,12 +20,20 @@ import {
   formatSearchResultsMarkdown,
   formatUserMarkdown,
 } from "../format/markdown.js";
-import { buildImageContent, extractImageUrlsFromBlock, extractImageUrlsFromConnectables } from "./images.js";
+import {
+  buildImageContentWithSummary,
+  type ImageFetchOptions,
+  extractImageTargetsFromBlock,
+  extractImageTargetsFromConnectables,
+  extractImageUrlsFromBlock,
+  extractImageUrlsFromConnectables,
+} from "./images.js";
 import { toolError, toolSuccess } from "./tool-utils.js";
 
 interface ReadToolDeps {
   arenaClient: ArenaClient;
   searchFallbackEnabled: boolean;
+  imageFetchOptions?: Pick<ImageFetchOptions, "maxBytes" | "timeoutMs" | "maxConcurrent" | "userAgent">;
 }
 
 const positiveInteger = z.number().int().positive();
@@ -37,7 +45,7 @@ const SEARCH_STRUCTURED_MAX_BYTES = 24_000;
 type StructuredSearchItem = Omit<NormalizedSearchItem, "raw"> & { raw?: unknown };
 
 export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
-  const { arenaClient, searchFallbackEnabled } = deps;
+  const { arenaClient, searchFallbackEnabled, imageFetchOptions } = deps;
 
   server.registerTool(
     "search_arena",
@@ -158,7 +166,14 @@ export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
           user_id: args.user_id,
         });
         const imageUrls = extractImageUrlsFromConnectables(result.data, 4);
-        const imageContent = await buildImageContent(imageUrls, { maxImages: 4 });
+        const imageTargets = extractImageTargetsFromConnectables(result.data, 4);
+        const { content: imageContent, summary: imageFetchSummary } = await buildImageContentWithSummary(
+          imageTargets,
+          {
+            maxImages: 4,
+            ...imageFetchOptions,
+          },
+        );
         return toolSuccess(formatChannelMarkdown(resolution.channel, result.data, result.meta), {
           channel: resolution.channel,
           channel_resolution: {
@@ -172,6 +187,7 @@ export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
           contents: result.data,
           meta: result.meta,
           image_urls: imageUrls,
+          image_fetch_summary: imageFetchSummary,
         }, imageContent);
       } catch (error) {
         return toolError(
@@ -195,12 +211,20 @@ export function registerReadTools(server: McpServer, deps: ReadToolDeps): void {
         const block = await arenaClient.getBlock(args.id);
         const connections = await arenaClient.getBlockConnections({ id: args.id, page: 1 });
         const imageUrls = extractImageUrlsFromBlock(block, 1);
-        const imageContent = await buildImageContent(imageUrls, { maxImages: 1 });
+        const imageTargets = extractImageTargetsFromBlock(block, 1);
+        const { content: imageContent, summary: imageFetchSummary } = await buildImageContentWithSummary(
+          imageTargets,
+          {
+            maxImages: 1,
+            ...imageFetchOptions,
+          },
+        );
         return toolSuccess(formatBlockMarkdown(block, connections.data), {
           block,
           connections: connections.data,
           meta: connections.meta,
           image_urls: imageUrls,
+          image_fetch_summary: imageFetchSummary,
         }, imageContent);
       } catch (error) {
         return toolError(toUserFacingError(error, { operation: "get_block_details", target: args.id }));

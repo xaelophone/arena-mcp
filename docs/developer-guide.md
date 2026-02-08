@@ -34,6 +34,10 @@ Optional:
 - `ARENA_MAX_CONCURRENT_REQUESTS` (default `4`)
 - `ARENA_DEFAULT_PER_PAGE` (default `50`, clamped `1..100`)
 - `ARENA_ENABLE_V2_SEARCH_FALLBACK` (default `true`)
+- `ARENA_IMAGE_FETCH_TIMEOUT_MS` (default `10000`)
+- `ARENA_IMAGE_FETCH_MAX_BYTES` (default `2000000`)
+- `ARENA_IMAGE_FETCH_MAX_CONCURRENT` (default `3`)
+- `ARENA_IMAGE_FETCH_USER_AGENT` (default browser-like UA)
 
 HTTP mode only:
 - `MCP_HTTP_HOST` (default `0.0.0.0`)
@@ -113,8 +117,11 @@ Image payloads are returned in two forms:
 Current limits:
 - Channel reads: up to 4 images per call.
 - Block detail reads: up to 1 image per call.
-- Per-image download cap: 2 MB.
-- Image fetch timeout: 10 seconds.
+- Per-image download cap: 2 MB (configurable).
+- Image fetch timeout: 10 seconds (configurable).
+- Image fetches include a browser-like User-Agent by default.
+- Multi-variant fallback is attempted in order: `src -> large -> medium -> small -> square`.
+- Tool responses include `image_fetch_summary` diagnostics for success/failure visibility.
 
 Image behavior is implemented in `src/mcp/images.ts`.
 

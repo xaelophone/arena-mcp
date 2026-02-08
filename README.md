@@ -102,6 +102,10 @@ Core:
 - `ARENA_MAX_CONCURRENT_REQUESTS` (default: `4`)
 - `ARENA_DEFAULT_PER_PAGE` (default: `50`, clamped `1..100`)
 - `ARENA_ENABLE_V2_SEARCH_FALLBACK` (default: `true`)
+- `ARENA_IMAGE_FETCH_TIMEOUT_MS` (default: `10000`)
+- `ARENA_IMAGE_FETCH_MAX_BYTES` (default: `2000000`)
+- `ARENA_IMAGE_FETCH_MAX_CONCURRENT` (default: `3`)
+- `ARENA_IMAGE_FETCH_USER_AGENT` (default: browser-like UA string)
 
 HTTP mode:
 

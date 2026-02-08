@@ -7,6 +7,10 @@ export interface ServerConfig {
   arenaMaxConcurrentRequests: number;
   arenaDefaultPerPage: number;
   arenaEnableV2SearchFallback: boolean;
+  arenaImageFetchTimeoutMs: number;
+  arenaImageFetchMaxBytes: number;
+  arenaImageFetchMaxConcurrent: number;
+  arenaImageFetchUserAgent: string;
 }
 
 export interface HttpServerConfig extends ServerConfig {
@@ -26,6 +30,11 @@ export const DEFAULT_ARENA_MAX_RETRIES = 5;
 export const DEFAULT_ARENA_BACKOFF_BASE_MS = 500;
 export const DEFAULT_ARENA_MAX_CONCURRENT_REQUESTS = 4;
 export const DEFAULT_ARENA_DEFAULT_PER_PAGE = 50;
+export const DEFAULT_ARENA_IMAGE_FETCH_TIMEOUT_MS = 10_000;
+export const DEFAULT_ARENA_IMAGE_FETCH_MAX_BYTES = 2_000_000;
+export const DEFAULT_ARENA_IMAGE_FETCH_MAX_CONCURRENT = 3;
+export const DEFAULT_ARENA_IMAGE_FETCH_USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36";
 export const DEFAULT_MCP_HTTP_HOST = "0.0.0.0";
 export const DEFAULT_MCP_HTTP_PORT = 8787;
 export const DEFAULT_MCP_HTTP_PATH = "/mcp";
@@ -142,6 +151,29 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       ),
     ),
     arenaEnableV2SearchFallback: parseBoolean(env.ARENA_ENABLE_V2_SEARCH_FALLBACK, true),
+    arenaImageFetchTimeoutMs: parseInteger(
+      env.ARENA_IMAGE_FETCH_TIMEOUT_MS,
+      "ARENA_IMAGE_FETCH_TIMEOUT_MS",
+      DEFAULT_ARENA_IMAGE_FETCH_TIMEOUT_MS,
+      500,
+      120_000,
+    ),
+    arenaImageFetchMaxBytes: parseInteger(
+      env.ARENA_IMAGE_FETCH_MAX_BYTES,
+      "ARENA_IMAGE_FETCH_MAX_BYTES",
+      DEFAULT_ARENA_IMAGE_FETCH_MAX_BYTES,
+      50_000,
+      20_000_000,
+    ),
+    arenaImageFetchMaxConcurrent: parseInteger(
+      env.ARENA_IMAGE_FETCH_MAX_CONCURRENT,
+      "ARENA_IMAGE_FETCH_MAX_CONCURRENT",
+      DEFAULT_ARENA_IMAGE_FETCH_MAX_CONCURRENT,
+      1,
+      16,
+    ),
+    arenaImageFetchUserAgent:
+      env.ARENA_IMAGE_FETCH_USER_AGENT?.trim() || DEFAULT_ARENA_IMAGE_FETCH_USER_AGENT,
   };
 }
 

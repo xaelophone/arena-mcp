@@ -104,6 +104,7 @@ Structured content keys:
 - `contents`
 - `meta`
 - `image_urls`
+- `image_fetch_summary`
 
 Extra MCP content:
 - image content parts (`type: "image"`) up to 4
@@ -118,6 +119,7 @@ Structured content keys:
 - `connections`
 - `meta`
 - `image_urls`
+- `image_fetch_summary`
 
 Extra MCP content:
 - image content part (`type: "image"`) up to 1

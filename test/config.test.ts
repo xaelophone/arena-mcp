@@ -20,14 +20,26 @@ describe("config", () => {
     expect(config.arenaMaxRetries).toBe(0);
     expect(config.arenaMaxConcurrentRequests).toBe(64);
     expect(config.arenaApiBaseUrl).toBe("https://api.are.na");
+    expect(config.arenaImageFetchTimeoutMs).toBe(10_000);
+    expect(config.arenaImageFetchMaxBytes).toBe(2_000_000);
+    expect(config.arenaImageFetchMaxConcurrent).toBe(3);
+    expect(config.arenaImageFetchUserAgent.length).toBeGreaterThan(0);
   });
 
   it("parses booleans", () => {
     const config = loadConfig({
       ARENA_ACCESS_TOKEN: "token",
       ARENA_ENABLE_V2_SEARCH_FALLBACK: "false",
+      ARENA_IMAGE_FETCH_TIMEOUT_MS: "25000",
+      ARENA_IMAGE_FETCH_MAX_BYTES: "5000000",
+      ARENA_IMAGE_FETCH_MAX_CONCURRENT: "9",
+      ARENA_IMAGE_FETCH_USER_AGENT: "CustomAgent/1.0",
     });
     expect(config.arenaEnableV2SearchFallback).toBe(false);
+    expect(config.arenaImageFetchTimeoutMs).toBe(25_000);
+    expect(config.arenaImageFetchMaxBytes).toBe(5_000_000);
+    expect(config.arenaImageFetchMaxConcurrent).toBe(9);
+    expect(config.arenaImageFetchUserAgent).toBe("CustomAgent/1.0");
   });
 
   it("clamps per-page values", () => {

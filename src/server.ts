@@ -13,6 +13,12 @@ interface CreateServerDeps {
 
 export function createArenaMcpServer(config: ServerConfig, deps: CreateServerDeps = {}): McpServer {
   const arenaClient = deps.arenaClient ?? new ArenaClient(config);
+  const imageFetchOptions = {
+    timeoutMs: config.arenaImageFetchTimeoutMs,
+    maxBytes: config.arenaImageFetchMaxBytes,
+    maxConcurrent: config.arenaImageFetchMaxConcurrent,
+    userAgent: config.arenaImageFetchUserAgent,
+  };
 
   const server = new McpServer(
     {
@@ -28,10 +34,11 @@ export function createArenaMcpServer(config: ServerConfig, deps: CreateServerDep
     },
   );
 
-  registerResources(server, { arenaClient });
+  registerResources(server, { arenaClient, imageFetchOptions });
   registerReadTools(server, {
     arenaClient,
     searchFallbackEnabled: config.arenaEnableV2SearchFallback,
+    imageFetchOptions,
   });
   registerWriteTools(server, { arenaClient, requireWriteScope: deps.requireWriteScope });
   registerPrompts(server);

@@ -2,10 +2,16 @@ import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mc
 import { toUserFacingError } from "../errors.js";
 import { formatBlockMarkdown, formatChannelMarkdown, formatUserMarkdown } from "../format/markdown.js";
 import type { ArenaClient } from "../arena/client.js";
-import { buildImageResourceContents, extractImageUrlsFromBlock, extractImageUrlsFromConnectables } from "./images.js";
+import {
+  buildImageResourceContents,
+  type ImageFetchOptions,
+  extractImageTargetsFromBlock,
+  extractImageTargetsFromConnectables,
+} from "./images.js";
 
 interface ResourceDeps {
   arenaClient: ArenaClient;
+  imageFetchOptions?: Pick<ImageFetchOptions, "maxBytes" | "timeoutMs" | "maxConcurrent" | "userAgent">;
 }
 
 function requireVariable(value: string | string[] | undefined, variableName: string): string {
@@ -19,7 +25,7 @@ function requireVariable(value: string | string[] | undefined, variableName: str
 }
 
 export function registerResources(server: McpServer, deps: ResourceDeps): void {
-  const { arenaClient } = deps;
+  const { arenaClient, imageFetchOptions } = deps;
 
   server.registerResource(
     "arena-channel",
@@ -34,8 +40,11 @@ export function registerResources(server: McpServer, deps: ResourceDeps): void {
         const idOrSlug = requireVariable(variables.idOrSlug, "idOrSlug");
         const channel = await arenaClient.getChannel(idOrSlug);
         const contents = await arenaClient.getChannelContents({ idOrSlug, page: 1 });
-        const imageUrls = extractImageUrlsFromConnectables(contents.data, 4);
-        const imageContents = await buildImageResourceContents(imageUrls, uri.href, { maxImages: 4 });
+        const imageTargets = extractImageTargetsFromConnectables(contents.data, 4);
+        const imageContents = await buildImageResourceContents(imageTargets, uri.href, {
+          maxImages: 4,
+          ...imageFetchOptions,
+        });
         return {
           contents: [
             {
@@ -68,8 +77,11 @@ export function registerResources(server: McpServer, deps: ResourceDeps): void {
         }
         const block = await arenaClient.getBlock(blockId);
         const connections = await arenaClient.getBlockConnections({ id: blockId, page: 1 });
-        const imageUrls = extractImageUrlsFromBlock(block, 1);
-        const imageContents = await buildImageResourceContents(imageUrls, uri.href, { maxImages: 1 });
+        const imageTargets = extractImageTargetsFromBlock(block, 1);
+        const imageContents = await buildImageResourceContents(imageTargets, uri.href, {
+          maxImages: 1,
+          ...imageFetchOptions,
+        });
         return {
           contents: [
             {

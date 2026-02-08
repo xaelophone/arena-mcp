@@ -13,6 +13,11 @@ function makeConfig(overrides: Partial<ServerConfig> = {}): ServerConfig {
     arenaMaxConcurrentRequests: 4,
     arenaDefaultPerPage: 50,
     arenaEnableV2SearchFallback: true,
+    arenaImageFetchTimeoutMs: 10_000,
+    arenaImageFetchMaxBytes: 2_000_000,
+    arenaImageFetchMaxConcurrent: 3,
+    arenaImageFetchUserAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
     ...overrides,
   };
 }
