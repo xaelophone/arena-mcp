@@ -1,5 +1,9 @@
 # Are.na MCP
 
+<p align="center">
+  <img src="./landing/assets/logo.svg" alt="Are.na MCP logo" width="180" />
+</p>
+
 Graph-native MCP server for Are.na. Designed for local use in MCP clients (Claude Desktop, Cursor, VS Code), with optional self-hosted HTTP mode.
 
 ## Install
