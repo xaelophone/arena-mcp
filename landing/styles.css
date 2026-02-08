@@ -22,6 +22,7 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -84,6 +85,7 @@ code {
 .hero-brand {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
@@ -97,6 +99,7 @@ code {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .brand {
@@ -162,6 +165,7 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -207,11 +211,17 @@ code {
   align-items: center;
 }
 
+.tool-grid li code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .snippet {
   background: #f8f8f5;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 12px;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -219,7 +229,9 @@ code {
 .snippet code {
   display: block;
   line-height: 1.45;
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .snippet pre {
@@ -278,7 +290,23 @@ code {
   }
 
   .hero-brand {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hero-logo {
+    width: 74px;
+  }
+
+  .hero-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .hero-actions .cta-link,
+  .hero-actions .secondary-link {
+    width: 100%;
   }
 
   .tool-grid {
