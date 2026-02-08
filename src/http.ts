@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import type { IncomingMessage, ServerResponse } from "node:http";
-import express, { type NextFunction, type Request, type Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import { randomUUID } from "node:crypto";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
@@ -106,7 +106,6 @@ async function withEphemeralRuntime(
 async function main(): Promise<void> {
   const config = loadHttpConfig();
   const app = createMcpExpressApp({ host: config.mcpHttpHost });
-  app.use(express.json({ limit: "2mb" }));
 
   if (config.mcpHttpEnableCors) {
     app.use((req, res, next) => {
