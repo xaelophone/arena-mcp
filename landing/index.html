@@ -40,179 +40,68 @@
   </head>
   <body>
     <div class="viewport">
-      <header id="top">
-        <div class="header-top">
-          <h1 class="brand">
-            Are.na MCP
-          </h1>
-          <div class="meta-stack mono">
-            <span id="clock">00:00:00</span>
-            <span>LOCAL / STDIO</span>
+      <header id="top" class="hero">
+        <div class="hero-brand">
+          <img src="./assets/logo.svg" alt="Are.na MCP logo" class="hero-logo" />
+          <div class="hero-copy">
+            <p class="mono">Community-built MCP server</p>
+            <h1 class="brand">Are.na MCP</h1>
           </div>
         </div>
 
         <p class="intro-text">
-          A community-built MCP server for
-          <a href="https://www.are.na" target="_blank" rel="noreferrer">Are.na</a>. Connect AI to your channels &amp;
-          blocks. Read &amp; write access.
+          Connect AI to your
+          <a href="https://www.are.na" target="_blank" rel="noreferrer">Are.na</a> channels and
+          blocks with read and write MCP tools.
         </p>
 
-        <div class="nav-grid">
-          <a class="nav-item" href="#what"><span class="icon-plus">+</span>What It Does</a>
-          <a class="nav-item" href="#setup"><span class="icon-plus">+</span>Setup</a>
-          <a class="nav-item" href="#tools"><span class="icon-plus">+</span>Tools</a>
-          <a class="nav-item" href="#tests"><span class="icon-plus">+</span>Testing</a>
+        <div class="hero-actions">
+          <a class="cta-link" href="#setup">Quick Setup</a>
+          <a
+            class="secondary-link"
+            href="https://github.com/xaelophone/arena-mcp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on GitHub
+          </a>
         </div>
       </header>
 
       <main class="feed">
-        <article id="what" class="card">
+        <article id="what" class="card text-only">
           <div class="card-header">
-            <span class="mono">CAPABILITY</span>
-            <span class="mono">01</span>
-          </div>
-          <div class="sketch-container">
-            <svg class="sketch-svg" viewBox="0 0 200 200" aria-hidden="true">
-              <path
-                class="draw-path"
-                d="M24,40 L86,40 L112,74 L176,74 L176,160 L24,160 Z"
-              ></path>
-              <path class="draw-path" d="M112,74 L112,160" style="animation-delay: 0.2s"></path>
-              <circle class="draw-path" cx="54" cy="100" r="14" style="animation-delay: 0.35s"></circle>
-              <circle class="draw-path" cx="148" cy="114" r="14" style="animation-delay: 0.45s"></circle>
-              <path class="draw-path" d="M68,100 L134,114" style="animation-delay: 0.55s"></path>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <p class="card-copy">
-              Read channels/blocks/users as MCP resources and run deterministic tools for search,
-              traversal, and mutation.
-            </p>
-          </div>
-        </article>
-
-        <article class="card text-only">
-          <div class="card-header">
-            <span class="mono">RUNTIME</span>
-            <span class="badge">NODE 22</span>
-          </div>
-          <p class="quote">
-            Uses the
-            <a href="https://dev.are.na/documentation/channels" target="_blank" rel="noreferrer">Are.na V3 API</a>
-            by default.
-          </p>
-          <div class="card-footer">
-            <span class="mono">SEARCH FALLBACK: V2 ONLY</span>
-          </div>
-        </article>
-
-        <article class="card text-only">
-          <div class="card-header">
-            <span class="mono">LOCAL BY DEFAULT</span>
-            <span class="badge">STDIO</span>
+            <span class="mono">What it does</span>
           </div>
           <p class="card-copy">
-            Runs locally in MCP clients and keeps credentials user-owned. Bring your own
-            <code>ARENA_ACCESS_TOKEN</code>.
+            A clean MCP interface for the Are.na API. Use it to browse, search, and update channels
+            directly from clients that support MCP.
           </p>
           <div class="list-shell">
-            <p>Claude Desktop · Cursor · VS Code</p>
-            <p>Works anywhere command-based MCP servers are supported.</p>
-          </div>
-          <div class="card-footer">
-            <span class="mono">NO SHARED HOST REQUIRED</span>
-          </div>
-        </article>
-
-        <article id="tools" class="card">
-          <div class="card-header">
-            <span class="mono">TOOLS</span>
-            <span class="mono">11</span>
-          </div>
-          <div class="list-shell">
-            <p><code>search_arena</code> · <code>get_channel_contents</code> · <code>get_block_details</code></p>
-            <p><code>get_block_connections</code> · <code>get_user</code> · <code>get_user_contents</code></p>
-            <p><code>create_channel</code> · <code>create_block</code> · <code>connect_block</code></p>
-            <p><code>disconnect_connection</code> · <code>move_connection</code></p>
-          </div>
-          <div class="card-footer">
-            <div class="file-name">MCP_TOOLSET.TXT</div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-header">
-            <span class="mono">IMAGE OUTPUT</span>
-            <span class="badge">MCP</span>
-          </div>
-          <div class="sketch-container">
-            <svg class="sketch-svg" viewBox="0 0 200 200" aria-hidden="true">
-              <rect class="draw-path" x="34" y="44" width="132" height="110" rx="8"></rect>
-              <circle class="draw-path" cx="72" cy="82" r="10" style="animation-delay: 0.2s"></circle>
-              <path class="draw-path" d="M50,132 L92,98 L118,116 L150,88 L150,132 Z" style="animation-delay: 0.35s"></path>
-            </svg>
-          </div>
-          <div class="card-footer">
-            <p class="card-copy">
-              Channel and block reads include image content parts for clients that render inline
-              visual context.
-            </p>
-          </div>
-        </article>
-
-        <article class="card text-only">
-          <div class="card-header">
-            <span class="mono">SELF-HOST HTTP (OPTIONAL)</span>
-            <span class="badge">ADVANCED</span>
-          </div>
-          <p class="card-copy">
-            Optional Streamable HTTP deployment for shared environments. Protect endpoint access
-            with read and write API keys.
-          </p>
-          <div class="snippet">
-            <code>MCP_HTTP_READ_KEYS="read-key"
-MCP_HTTP_WRITE_KEYS="write-key"</code>
-          </div>
-          <div class="card-footer">
-            <span class="mono">SCOPES: READ + WRITE</span>
+            <p>Read channels, blocks, and users as resources.</p>
+            <p>Search and traverse connections between blocks.</p>
+            <p>Create channels, create blocks, and manage connections.</p>
           </div>
         </article>
 
         <article id="setup" class="card text-only">
           <div class="card-header">
-            <span class="mono">SETUP STEP 1</span>
-            <button class="copy-button mono" data-copy-target="install-snippet">COPY</button>
+            <span class="mono">Quick setup</span>
+            <button class="copy-button mono" data-copy-target="install-snippet">Copy</button>
           </div>
           <div class="snippet" id="install-snippet">
-            <code>ARENA_ACCESS_TOKEN="YOUR_TOKEN"
-npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp</code>
-          </div>
-          <div class="card-footer">
-            <span class="mono">GITHUB QUICK RUN</span>
+            <pre><code>ARENA_ACCESS_TOKEN="YOUR_TOKEN"
+npm exec --yes --package=github:xaelophone/arena-mcp arena-mcp</code></pre>
           </div>
         </article>
 
         <article class="card text-only">
           <div class="card-header">
-            <span class="mono">SETUP STEP 2</span>
-            <button class="copy-button mono" data-copy-target="env-snippet">COPY</button>
-          </div>
-          <div class="snippet" id="env-snippet">
-            <code>export ARENA_ACCESS_TOKEN="YOUR_TOKEN"
-export ARENA_ENABLE_V2_SEARCH_FALLBACK="true"</code>
-          </div>
-          <div class="card-footer">
-            <span class="mono">ENV CONFIG</span>
-          </div>
-        </article>
-
-        <article class="card text-only">
-          <div class="card-header">
-            <span class="mono">SETUP STEP 3</span>
-            <button class="copy-button mono" data-copy-target="claude-snippet">COPY</button>
+            <span class="mono">Claude Desktop config</span>
+            <button class="copy-button mono" data-copy-target="claude-snippet">Copy</button>
           </div>
           <div class="snippet" id="claude-snippet">
-            <code>{
+            <pre><code>{
   "mcpServers": {
     "arena": {
       "command": "npx",
@@ -220,33 +109,50 @@ export ARENA_ENABLE_V2_SEARCH_FALLBACK="true"</code>
       "env": { "ARENA_ACCESS_TOKEN": "YOUR_TOKEN" }
     }
   }
-}</code>
+}</code></pre>
           </div>
-          <div class="card-footer">
-            <span class="mono">CLAUDE DESKTOP</span>
+        </article>
+
+        <article id="tools" class="card text-only">
+          <div class="card-header">
+            <span class="mono">Available tools</span>
+            <span class="badge">11 total</span>
           </div>
+          <ul class="tool-grid">
+            <li><code>search_arena</code></li>
+            <li><code>get_channel_contents</code></li>
+            <li><code>get_block_details</code></li>
+            <li><code>get_block_connections</code></li>
+            <li><code>get_user</code></li>
+            <li><code>get_user_contents</code></li>
+            <li><code>create_channel</code></li>
+            <li><code>create_block</code></li>
+            <li><code>connect_block</code></li>
+            <li><code>disconnect_connection</code></li>
+            <li><code>move_connection</code></li>
+          </ul>
         </article>
 
         <article id="tests" class="card text-only dark">
           <div class="card-header">
-            <span class="mono">NOT AN OFFICIAL MCP</span>
-            <span class="badge light">COMMUNITY PROJECT</span>
+            <span class="mono">Project notes</span>
           </div>
-          <div class="list-shell">
-            <p>
-              Created by
-              <a class="creator-link" href="https://seanxthielen.com" target="_blank" rel="noreferrer">Sean Thielen-Esparza</a>
-            </p>
-          </div>
-          <a class="cta-link" href="https://github.com/xaelophone/arena-mcp" target="_blank" rel="noreferrer">View on GitHub</a>
-          <div class="card-footer">
-            <span class="mono">COMMUNITY BUILT</span>
-          </div>
+          <p class="card-copy">
+            Community-built and not affiliated with Are.na. Uses the Are.na V3 API by default, with
+            optional V2 search fallback.
+          </p>
+          <p class="card-copy">Works in Claude Desktop, Cursor, and VS Code MCP clients.</p>
+          <a
+            class="cta-link"
+            href="https://github.com/xaelophone/arena-mcp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read docs and source
+          </a>
         </article>
       </main>
     </div>
-
-    <a class="fab" href="#top" aria-label="Back to top">↑</a>
 
     <script src="./script.js" type="module"></script>
   </body>
