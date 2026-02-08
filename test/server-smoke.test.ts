@@ -279,9 +279,14 @@ describe("MCP server smoke", () => {
       },
     });
 
-    const items = structured?.items as Array<Record<string, unknown>>;
-    expect(items[0]).toBeTruthy();
-    expect("raw" in items[0]).toBe(false);
+    const items = structured?.items as Array<Record<string, unknown>> | undefined;
+    expect(items?.length).toBeGreaterThan(0);
+    const firstItem = items?.[0];
+    expect(firstItem).toBeTruthy();
+    if (!firstItem) {
+      throw new Error("Expected at least one search result item");
+    }
+    expect("raw" in firstItem).toBe(false);
   });
 
   it("truncates oversized structured search output when include_raw=true", async () => {
